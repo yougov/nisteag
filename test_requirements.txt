@@ -3,3 +3,4 @@
 coverage==4.2
 flake8==3.0.4
 nose==1.3.7
+xtraceback==0.3.3
