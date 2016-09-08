@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from nose.tools import istest
 
-from nisteag.password.strength import (
+from nisteag.token.requirements import (
     PasswordStrengthChecker,
     SmallPasswordError,
 )
