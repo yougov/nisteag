@@ -3,6 +3,7 @@
 An implementation of recommendations from the NIST Electronic Authentication Guideline
 
 [![Build Status](https://travis-ci.org/yougov/nisteag.svg?branch=master)](https://travis-ci.org/yougov/nisteag)
+[![Test Coverage](https://codeclimate.com/github/yougov/nisteag/badges/coverage.svg)](https://codeclimate.com/github/yougov/nisteag/coverage)
 [![Code Climate](https://codeclimate.com/github/yougov/nisteag/badges/gpa.svg)](https://codeclimate.com/github/yougov/nisteag)
 [![Issue Count](https://codeclimate.com/github/yougov/nisteag/badges/issue_count.svg)](https://codeclimate.com/github/yougov/nisteag)
 
