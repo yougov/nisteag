@@ -1,6 +1,3 @@
-MINIMUM_LENGTH = 8
-
-
 class StrengthError(Exception):
     """Base exception class for strengh check failures."""
 
@@ -9,8 +6,10 @@ class SmallPasswordError(StrengthError):
     """Raised when the password is too small."""
 
 
-class PasswordStrengthChecker(object):
+class Level1Checker(object):
+    MINIMUM_LENGTH = 6
+
     def check(self, password):
-        if len(password) < MINIMUM_LENGTH:
+        if len(password) < self.MINIMUM_LENGTH:
             raise SmallPasswordError(
                 'The password needs to be at least 8 characters long.')
