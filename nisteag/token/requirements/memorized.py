@@ -1,8 +1,7 @@
-class StrengthError(Exception):
-    """Base exception class for strengh check failures."""
+from nisteag.entropy import EntropyError
 
 
-class SmallTokenError(StrengthError):
+class SmallTokenError(EntropyError):
     """Raised when the token is too small."""
 
 
