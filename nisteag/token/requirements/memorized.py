@@ -2,19 +2,19 @@ class StrengthError(Exception):
     """Base exception class for strengh check failures."""
 
 
-class SmallPasswordError(StrengthError):
-    """Raised when the password is too small."""
+class SmallTokenError(StrengthError):
+    """Raised when the token is too small."""
 
 
 class BaseMemorizedChecker(object):
-    def _check_length(self, password):
-        if len(password) < self.MINIMUM_LENGTH:
-            raise SmallPasswordError(
-                'The password needs to be at least {} characters long.'.format(
+    def _check_length(self, token):
+        if len(token) < self.MINIMUM_LENGTH:
+            raise SmallTokenError(
+                'The token needs to be at least {} characters long.'.format(
                     self.MINIMUM_LENGTH))
 
-    def check(self, password):
-        self._check_length(password)
+    def check(self, token):
+        self._check_length(token)
 
 
 class Level1Checker(BaseMemorizedChecker):
