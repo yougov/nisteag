@@ -29,10 +29,52 @@ class EntropyCalculatorTest(TestCase):
         self.assertEqual(result, 4)
 
     @istest
+    def calculates_for_single_ascii_upper_character(self):
+        result = self.calculator.calculate('A')
+
+        self.assertEqual(result, 4)
+
+    @istest
     def calculates_for_2_ascii_characters(self):
         result = self.calculator.calculate(string.printable[:2])
 
         self.assertEqual(result, 6)
+
+    @istest
+    def calculates_for_3_ascii_characters(self):
+        result = self.calculator.calculate(string.printable[:3])
+
+        self.assertEqual(result, 8)
+
+    @istest
+    def calculates_for_mixed_case(self):
+        result = self.calculator.calculate('aA')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_lower_and_digit(self):
+        result = self.calculator.calculate('a1')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_upper_and_digit(self):
+        result = self.calculator.calculate('A1')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_upper_and_special(self):
+        result = self.calculator.calculate('A*')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_lower_and_upper_and_special(self):
+        result = self.calculator.calculate('aA*')
+
+        self.assertEqual(result, 20)
 
     @istest
     def calculates_for_6_ascii_characters(self):
@@ -54,7 +96,8 @@ class EntropyCalculatorTest(TestCase):
 
     @istest
     def calculates_for_21_ascii_characters(self):
-        result = self.calculator.calculate(string.printable[:21])
+        token = (string.ascii_letters * 2)[:21]
+        result = self.calculator.calculate(token)
 
         self.assertEqual(result, 37)
 
