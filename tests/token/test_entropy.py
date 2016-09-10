@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import string
 from unittest import TestCase
 
@@ -54,3 +57,27 @@ class EntropyCalculatorTest(TestCase):
         result = self.calculator.calculate(string.printable[:21])
 
         self.assertEqual(result, 37)
+
+    @istest
+    def calculates_for_single_unicode_character(self):
+        result = self.calculator.calculate('á')
+
+        self.assertEqual(result, 12.26)
+
+    @istest
+    def calculates_for_single_ascii_byte(self):
+        result = self.calculator.calculate('a'.encode('ascii'))
+
+        self.assertEqual(result, 4)
+
+    @istest
+    def calculates_for_single_utf8_byte(self):
+        result = self.calculator.calculate('á'.encode('utf-8'))
+
+        self.assertEqual(result, 12.26)
+
+    @istest
+    def calculates_for_single_latin1_byte(self):
+        result = self.calculator.calculate('á'.encode('latin1'))
+
+        self.assertEqual(result, 12.26)

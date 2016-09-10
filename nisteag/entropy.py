@@ -1,5 +1,11 @@
-KEYBOARD_CHARS = 90
-UNICODE_CHARS = 1114111
+import math
+
+import chardet
+import six
+
+
+KEYBOARD_SIZE = 94
+UNICODE_SIZE = 1114111
 
 
 class EntropyError(Exception):
@@ -11,8 +17,23 @@ class EmptyTokenError(EntropyError):
 
 
 class EntropyCalculator(object):
+    def _get_alphabet_size(self, token):
+        try:
+            token.encode('ascii')
+        except UnicodeEncodeError:
+            return UNICODE_SIZE
+        return KEYBOARD_SIZE
+
     def calculate(self, token):
+        if not isinstance(token, six.text_type):
+            try:
+                token = token.decode('utf-8')
+            except UnicodeDecodeError:
+                charset = chardet.detect(token)
+                token = token.decode(charset['encoding'])
         total = 0
+        size = self._get_alphabet_size(token)
+        coef = math.log(size, 2) / math.log(KEYBOARD_SIZE, 2)
 
         for i, char in enumerate(token):
             if i == 0:
@@ -25,4 +46,4 @@ class EntropyCalculator(object):
                 bits = 1
             total += bits
 
-        return total
+        return round(total * coef, 2)

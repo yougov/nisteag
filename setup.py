@@ -18,7 +18,8 @@ setup(name='nisteag',
       include_package_data=True,
       zip_safe=True,
       install_requires=[
-          'six',
+          'chardet>=2.3.0',
+          'six>=1.10.0',
       ],
       entry_points="""
       # -*- Entry points: -*-
