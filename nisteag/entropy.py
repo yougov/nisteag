@@ -26,14 +26,17 @@ class EntropyCalculator(object):
 
     def calculate(self, token):
         if not isinstance(token, six.text_type):
-            try:
-                token = token.decode('utf-8')
-            except UnicodeDecodeError:
-                charset = chardet.detect(token)
-                token = token.decode(charset['encoding'])
-        total = 0
+            token = self._decode_token(token)
+
+        total = self._calculate_bits(token)
+
         size = self._get_alphabet_size(token)
         coef = math.log(size, 2) / math.log(KEYBOARD_SIZE, 2)
+
+        return round(total * coef, 2)
+
+    def _calculate_bits(self, token):
+        total = 0
 
         for i, char in enumerate(token):
             if i == 0:
@@ -46,4 +49,11 @@ class EntropyCalculator(object):
                 bits = 1
             total += bits
 
-        return round(total * coef, 2)
+        return total
+
+    def _decode_token(self, token):
+        try:
+            return token.decode('utf-8')
+        except UnicodeDecodeError:
+            charset = chardet.detect(token)
+            return token.decode(charset['encoding'])
