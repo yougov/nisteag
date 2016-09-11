@@ -14,6 +14,10 @@ LOWER_SET = set(string.ascii_lowercase)
 UPPER_SET = set(string.ascii_uppercase)
 DIGIT_SET = set(string.digits)
 SPECIAL_SET = ALL_SET - (LOWER_SET | UPPER_SET | DIGIT_SET)
+SETS = sorted((LOWER_SET, UPPER_SET, DIGIT_SET, SPECIAL_SET))
+
+
+MAX_COMPOSITION_BITS = 6
 
 
 class EntropyError(Exception):
@@ -50,18 +54,25 @@ class EntropyCalculator(object):
 
     def _get_composition_additional(self, token):
         token_set = set(token)
-        composition = -6
+        token_length = len(token)
+        composition = 0
 
-        for checking_set in (LOWER_SET, DIGIT_SET, UPPER_SET, SPECIAL_SET):
-            if token_set & checking_set:
-                composition += 6
-
-        for c in token_set:
-            if c not in ALL_SET:
-                composition += 6
-                break
+        if self._is_composed(token_set) and token_length > 3:
+            composition = min(token_length - 2, MAX_COMPOSITION_BITS)
 
         return composition
+
+    def _is_composed(self, token_set):
+        for i, first_set in enumerate(SETS):
+            for j, second_set in enumerate(SETS):
+                composes = (
+                    i != j
+                    and token_set & first_set
+                    and token_set & second_set
+                )
+                if composes:
+                    return True
+        return False
 
     def _calculate_bits(self, token):
         bits = 0

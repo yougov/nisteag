@@ -47,34 +47,10 @@ class EntropyCalculatorTest(TestCase):
         self.assertEqual(result, 8)
 
     @istest
-    def calculates_for_mixed_case(self):
-        result = self.calculator.calculate('aA')
+    def calculates_for_4_ascii_characters(self):
+        result = self.calculator.calculate(string.printable[:4])
 
-        self.assertEqual(result, 12)
-
-    @istest
-    def calculates_for_lower_and_digit(self):
-        result = self.calculator.calculate('a1')
-
-        self.assertEqual(result, 12)
-
-    @istest
-    def calculates_for_upper_and_digit(self):
-        result = self.calculator.calculate('A1')
-
-        self.assertEqual(result, 12)
-
-    @istest
-    def calculates_for_upper_and_special(self):
-        result = self.calculator.calculate('A*')
-
-        self.assertEqual(result, 12)
-
-    @istest
-    def calculates_for_lower_and_upper_and_special(self):
-        result = self.calculator.calculate('aA*')
-
-        self.assertEqual(result, 20)
+        self.assertEqual(result, 10)
 
     @istest
     def calculates_for_6_ascii_characters(self):
@@ -124,3 +100,51 @@ class EntropyCalculatorTest(TestCase):
         result = self.calculator.calculate('á'.encode('latin1'))
 
         self.assertEqual(result, 12.26)
+
+    @istest
+    def calculates_for_mixed_case(self):
+        result = self.calculator.calculate('abcA')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_small_mixed_case(self):
+        result = self.calculator.calculate('abC')
+
+        self.assertEqual(result, 8)
+
+    @istest
+    def calculates_for_lower_and_digit(self):
+        result = self.calculator.calculate('abc1')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_upper_and_digit(self):
+        result = self.calculator.calculate('ABC1')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_upper_and_special(self):
+        result = self.calculator.calculate('ABC*')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_lower_and_upper_and_special_and_number(self):
+        result = self.calculator.calculate('aA*1')
+
+        self.assertEqual(result, 12)
+
+    @istest
+    def calculates_for_mixed_case_5(self):
+        result = self.calculator.calculate('Abcde')
+
+        self.assertEqual(result, 15)
+
+    @istest
+    def calculates_for_mixed_case_9(self):
+        result = self.calculator.calculate('Abcdefghi')
+
+        self.assertEqual(result, 25.5)
