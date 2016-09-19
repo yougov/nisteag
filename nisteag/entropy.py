@@ -18,6 +18,7 @@ SETS = sorted((LOWER_SET, UPPER_SET, DIGIT_SET, SPECIAL_SET))
 
 
 MAX_COMPOSITION_BITS = 6
+MAX_DICTIONARY_BITS = 6
 
 
 class EntropyError(Exception):
@@ -28,6 +29,10 @@ class EmptyTokenError(EntropyError):
     """Raised when the token is empty."""
 
 
+class DictionaryError(EntropyError):
+    """Raised when there's an error regarding the terms dictionary provided."""
+
+
 class EntropyCalculator(object):
     def _get_alphabet_size(self, token):
         try:
@@ -36,9 +41,12 @@ class EntropyCalculator(object):
             return UNICODE_SIZE
         return KEYBOARD_SIZE
 
-    def calculate(self, token):
+    def calculate(self, token, dictionary=None):
         if not token:
             return 0
+
+        if dictionary and token in dictionary:
+            raise DictionaryError('Token exists in the dictionary provided.')
 
         if not isinstance(token, six.text_type):
             token = self._decode_token(token)
@@ -49,8 +57,17 @@ class EntropyCalculator(object):
         coef = math.log(size, 2) / math.log(KEYBOARD_SIZE, 2)
 
         bits += self._get_composition_additional(token)
+        bits += self._get_dictionary_additional(token, dictionary)
 
         return round(bits * coef, 2)
+
+    def _get_dictionary_additional(self, token, dictionary):
+        length = len(token)
+        if not dictionary or length < 4 or length >= 20:
+            return 0
+        if length > 8:
+            return MAX_DICTIONARY_BITS - (length - 8) / 2.0
+        return min(length, MAX_DICTIONARY_BITS)
 
     def _get_composition_additional(self, token):
         token_set = set(token)

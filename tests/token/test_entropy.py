@@ -7,6 +7,7 @@ from unittest import TestCase
 from nose.tools import istest
 
 from nisteag.entropy import (
+    DictionaryError,
     EmptyTokenError,
     EntropyCalculator,
 )
@@ -15,6 +16,10 @@ from nisteag.entropy import (
 class EntropyCalculatorTest(TestCase):
     def setUp(self):
         self.calculator = EntropyCalculator()
+        self.dictionary = [
+            'some pass',
+            'another pass',
+        ]
 
     @istest
     def calculates_for_empty_token(self):
@@ -148,3 +153,58 @@ class EntropyCalculatorTest(TestCase):
         result = self.calculator.calculate('Abcdefghi')
 
         self.assertEqual(result, 25.5)
+
+    @istest
+    def calculates_for_3_ascii_characters_with_dictionary(self):
+        result = self.calculator.calculate(
+            string.printable[:3], dictionary=self.dictionary)
+
+        self.assertEqual(result, 8)
+
+    @istest
+    def fails_to_calculate_if_token_is_in_dictionary(self):
+        with self.assertRaises(DictionaryError):
+            self.calculator.calculate(
+                self.dictionary[1], dictionary=self.dictionary)
+
+    @istest
+    def calculates_for_4_ascii_characters_with_dictionary(self):
+        result = self.calculator.calculate(
+            string.printable[:4], self.dictionary)
+
+        self.assertEqual(result, 14)
+
+    @istest
+    def calculates_for_5_ascii_characters_with_dictionary(self):
+        result = self.calculator.calculate(
+            string.printable[:5], self.dictionary)
+
+        self.assertEqual(result, 17)
+
+    @istest
+    def calculates_for_7_ascii_characters_with_dictionary(self):
+        result = self.calculator.calculate(
+            string.printable[:7], self.dictionary)
+
+        self.assertEqual(result, 22)
+
+    @istest
+    def calculates_for_9_ascii_characters_with_dictionary(self):
+        result = self.calculator.calculate(
+            string.printable[:9], self.dictionary)
+
+        self.assertEqual(result, 25)
+
+    @istest
+    def calculates_for_10_ascii_characters_with_dictionary(self):
+        result = self.calculator.calculate(
+            string.printable[:10], self.dictionary)
+
+        self.assertEqual(result, 26)
+
+    @istest
+    def calculates_for_21_ascii_characters_with_dictionary(self):
+        token = (string.ascii_letters * 2)[:21]
+        result = self.calculator.calculate(token, self.dictionary)
+
+        self.assertEqual(result, 37)
