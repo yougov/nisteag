@@ -20,3 +20,5 @@ An implementation of recommendations from the NIST Electronic Authentication Gui
    :alt: Issue Count
 
 The starting implementation will be for Special Publication 800-63-2: http://dx.doi.org/10.6028/NIST.SP.800-63-2
+
+The full documentation is here: http://nisteag.readthedocs.io/

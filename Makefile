@@ -226,3 +226,6 @@ dummy:
 
 setup-dev:
 	pip install -r dev_requirements.txt
+
+serve-html:
+	cd $(BUILDDIR)/dirhtml; python -m http.server
