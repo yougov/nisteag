@@ -34,6 +34,12 @@ class DictionaryError(EntropyError):
 
 
 class EntropyCalculator(object):
+    """This class is used to calculate entropies for tokens.
+
+    Tokens might be passwords, pass-phrases and the like.
+
+    """
+
     def _get_alphabet_size(self, token):
         try:
             token.encode('ascii')
