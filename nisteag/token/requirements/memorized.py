@@ -1,3 +1,5 @@
+"""Requirements for memorized tokens."""
+
 from nisteag.entropy import EntropyError
 
 

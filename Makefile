@@ -228,4 +228,4 @@ setup-dev:
 	pip install -r dev_requirements.txt
 
 serve-html:
-	cd $(BUILDDIR)/dirhtml; python -m http.server
+	cd $(BUILDDIR)/html; python -m http.server

@@ -1,3 +1,5 @@
+"""This module is related to token entropy calculation and the like."""
+
 import math
 import string
 
