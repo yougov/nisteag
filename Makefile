@@ -3,7 +3,7 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    = -c docs/
-SPHINXSOURCE  = docs/source
+SPHINXSOURCE  = docs
 SPHINXBUILD   = sphinx-build
 SPHINXAPIDOC  = sphinx-apidoc
 PAPER         =
