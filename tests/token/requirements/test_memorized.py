@@ -9,13 +9,19 @@ from nisteag.entropy import AnagramError, DictionaryError
 from nisteag.token.requirements.memorized import (
     Level1Checker,
     Level2Checker,
+    NullThrottler,
     WeakTokenError,
 )
 
 
+class FailingThrottler(object):
+    def check(self, username, token):
+        raise RuntimeError('too many attempts')
+
+
 class Level1CheckerTest(TestCase):
     def setUp(self):
-        self.checker = Level1Checker()
+        self.checker = Level1Checker(NullThrottler())
 
     @istest
     def checks_a_strong_token(self):
@@ -44,10 +50,17 @@ class Level1CheckerTest(TestCase):
         with self.assertRaises(AnagramError):
             self.checker.check(token, username=reversed(token))
 
+    @istest
+    def fails_if_throttler_fails(self):
+        checker = Level1Checker(FailingThrottler())
+
+        with self.assertRaises(RuntimeError):
+            checker.check('kjhdgfguier89324!!!')
+
 
 class Level2CheckerTest(TestCase):
     def setUp(self):
-        self.checker = Level2Checker()
+        self.checker = Level2Checker(NullThrottler())
 
     @istest
     def checks_a_strong_token(self):
