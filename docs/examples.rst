@@ -33,6 +33,7 @@ You can also just calculate the entropy directly, if you want::
     calculator = EntropyCalculator()
     calculator.calculate('abcd')  # returns 10.0
 
+.. _command-line:
 
 Command-line
 ------------
