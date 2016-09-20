@@ -1,7 +1,7 @@
 nisteag
 =======
 
-An implementation of recommendations from the NIST Electronic Authentication Guideline
+An implementation, in Python, of recommendations from the NIST Electronic Authentication Guideline
 
 .. image:: https://travis-ci.org/yougov/nisteag.svg?branch=master
    :target: https://travis-ci.org/yougov/nisteag

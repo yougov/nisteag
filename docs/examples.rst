@@ -1,6 +1,9 @@
 Examples
 ========
 
+Library
+-------
+
 Checking that a password meets the minimum requirements::
 
     from nisteag.token.requirements.memorized import BaseThrottler, Level1Checker
@@ -22,3 +25,21 @@ Checking that a password meets the minimum requirements::
     # also fails, since it's an anagram of the username
     checker.check('silent', username='listen')
 
+You can also just calculate the entropy directly, if you want::
+
+    from nisteag.entropy import EntropyCalculator
+
+
+    calculator = EntropyCalculator()
+    calculator.calculate('abcd')  # returns 10.0
+
+
+Command-line
+------------
+
+You can also check the entropy of a password from the command-line::
+
+    $ check-entropy abcd
+    10.0
+
+    $ check-entropy  # will pick the password via user input

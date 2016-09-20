@@ -6,6 +6,7 @@ Subpackages
 
 .. toctree::
 
+    nisteag.scripts
     nisteag.token
 
 Submodules

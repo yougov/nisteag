@@ -1,7 +1,7 @@
 Overview
 ========
 
-This package was built with the intention of implementing most of the
+This Python package was built with the intention of implementing most of the
 recommendations in NIST Special Publication 800-63-2, titled
 "Electronic Authentication Guideline". This is the link for the document:
 http://dx.doi.org/10.6028/NIST.SP.800-63-2 (if the link doesn't work, you can
