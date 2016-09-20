@@ -1,21 +1,29 @@
 """Requirements for memorized tokens."""
 
-from nisteag.entropy import EntropyError
+import string
+
+from nisteag.entropy import EntropyCalculator, EntropyError
 
 
-class SmallTokenError(EntropyError):
-    """Raised when the token is too small."""
+class WeakTokenError(EntropyError):
+    """Raised when the token is too weak."""
 
 
 class BaseMemorizedChecker(object):
-    def _check_length(self, token):
-        if len(token) < self.MINIMUM_LENGTH:
-            raise SmallTokenError(
-                'The token needs to be at least {} characters long.'.format(
-                    self.MINIMUM_LENGTH))
+    MINIMUM_LENGTH = 0
+
+    def __init__(self):
+        self.calculator = EntropyCalculator()
 
     def check(self, token):
-        self._check_length(token)
+        bits = self.calculator.calculate(token)
+
+        if bits < self._comparison_bits():
+            raise WeakTokenError('Token is too weak.')
+
+    def _comparison_bits(self):
+        comparison_token = string.printable[:self.MINIMUM_LENGTH]
+        return self.calculator.calculate(comparison_token)
 
 
 class Level1Checker(BaseMemorizedChecker):
