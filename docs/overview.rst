@@ -4,7 +4,8 @@ Overview
 This package was built with the intention of implementing most of the
 recommendations in NIST Special Publication 800-63-2, titled
 "Electronic Authentication Guideline". This is the link for the document:
-http://dx.doi.org/10.6028/NIST.SP.800-63-2
+http://dx.doi.org/10.6028/NIST.SP.800-63-2 (if the link doesn't work, you can
+:download:`download the document from here <static/NIST.SP.800-63-2.pdf>`)
 
 The main reason behind this implementation is to cover the need to check if
 passwords or pass-phrases meet minimum requirements in the system that uses it;
