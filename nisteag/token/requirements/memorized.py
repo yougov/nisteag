@@ -1,4 +1,9 @@
-"""Requirements for Memorized Secret Tokens."""
+"""Requirements for Memorized Secret Tokens.
+
+See section 6.3.1.1. Single Token Authentication, table 6, page 51, of the NIST
+document.
+
+"""
 
 from abc import ABCMeta, abstractmethod
 

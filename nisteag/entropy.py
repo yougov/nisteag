@@ -1,4 +1,9 @@
-"""This module is related to token entropy calculation and the like."""
+"""This module is related to token entropy calculation and the like.
+
+See Appendix A of the NIST document (page 103) if you want to understand how
+the calculation is done.
+
+"""
 
 import math
 import string
