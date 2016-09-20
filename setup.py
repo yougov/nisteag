@@ -8,11 +8,17 @@ setup(name='nisteag',
       description="An implementation of recommendations from the NIST Electronic Authentication Guideline",
       long_description="""\
 """,
-      classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      classifiers=[
+          'License :: OSI Approved :: MIT License',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
+          'Topic :: Security',
+      ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='nist electronic authentication guideline password security',
       author='Diogo Baeder',
       author_email='diogo.baeder@yougov.com',
-      url='',
+      url='https://github.com/yougov/nisteag',
       license='MIT',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
