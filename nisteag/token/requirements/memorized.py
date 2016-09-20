@@ -15,8 +15,8 @@ class BaseMemorizedChecker(object):
     def __init__(self):
         self.calculator = EntropyCalculator()
 
-    def check(self, token):
-        bits = self.calculator.calculate(token)
+    def check(self, token, dictionary=None, username=None):
+        bits = self.calculator.calculate(token, dictionary, username)
 
         if bits < self._comparison_bits():
             raise WeakTokenError('Token is too weak.')
