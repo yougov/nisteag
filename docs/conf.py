@@ -19,7 +19,7 @@
 #
 import sys
 from os.path import dirname, abspath, join
-sys.path.insert(0, join(abspath(dirname(__file__)), 'nisteag'))
+sys.path.insert(0, join(abspath(dirname(__file__)), '..'))
 
 
 # -- General configuration ------------------------------------------------

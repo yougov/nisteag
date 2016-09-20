@@ -2,19 +2,20 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
+SPHINXOPTS    = -c docs/
+SPHINXSOURCE  = docs/source
 SPHINXBUILD   = sphinx-build
 SPHINXAPIDOC  = sphinx-apidoc
 PAPER         =
-BUILDDIR      = _build
+BUILDDIR      = docs/_build
 MODULEDIR     = nisteag
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SPHINXSOURCE)
 # the i18n builder cannot share the environment and doctrees with the others
-I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SPHINXSOURCE)
 
 .PHONY: help
 help:
@@ -228,7 +229,7 @@ dummy:
 
 .PHONY: api-docs
 api-docs:
-	$(SPHINXAPIDOC) -f -e -o $(BUILDDIR) $(MODULEDIR)
+	$(SPHINXAPIDOC) -f -e -o $(SPHINXSOURCE) $(MODULEDIR)
 	@echo
 	@echo "Build finished. The API pages are in $(BUILDDIR)."
 
