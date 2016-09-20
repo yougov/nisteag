@@ -4,8 +4,10 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
+SPHINXAPIDOC  = sphinx-apidoc
 PAPER         =
 BUILDDIR      = _build
+MODULEDIR     = nisteag
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -224,8 +226,16 @@ dummy:
 	@echo
 	@echo "Build finished. Dummy builder generates no files."
 
+.PHONY: api-docs
+api-docs:
+	$(SPHINXAPIDOC) -f -e -o $(BUILDDIR) $(MODULEDIR)
+	@echo
+	@echo "Build finished. The API pages are in $(BUILDDIR)."
+
+.PHONY: setup-dev
 setup-dev:
 	pip install -r dev_requirements.txt
 
+.PHONY: serve-html
 serve-html:
 	cd $(BUILDDIR)/html; python -m http.server
