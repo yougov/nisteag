@@ -21,6 +21,7 @@ SETS = sorted((LOWER_SET, UPPER_SET, DIGIT_SET, SPECIAL_SET))
 
 MAX_COMPOSITION_BITS = 6
 MAX_DICTIONARY_BITS = 6
+MIN_DICT_USER_BITS = 10
 
 
 class EntropyError(Exception):
@@ -35,12 +36,12 @@ class DictionaryError(EntropyError):
     """Raised when there's an error regarding the terms dictionary provided."""
 
 
+class AnagramError(EntropyError):
+    """Raised when the token is an anagram of a username."""
+
+
 class EntropyCalculator(object):
-    """This class is used to calculate entropies for tokens.
-
-    Tokens might be passwords, pass-phrases and the like.
-
-    """
+    """This class is used to calculate entropies for tokens."""
 
     def _get_alphabet_size(self, token):
         try:
@@ -49,12 +50,28 @@ class EntropyCalculator(object):
             return UNICODE_SIZE
         return KEYBOARD_SIZE
 
-    def calculate(self, token, dictionary=None):
+    def calculate(self, token, dictionary=None, username=None):
+        """Calculates the entropy for a given token.
+
+        :param str token: The token for the calculation. May be a password, a
+            pass-phrase and the like.
+        :param sequence dictionary: An optional dictionary as a sequence,
+            against which the token will be tested, if provided. If you opt by
+            using it, provide a dictionary of at least 50,000 items.
+            Default: `None`.
+        :param str username: An optional username to be used for anagram
+            checking. Default: `None`.
+
+        """
+
         if not token:
             return 0
 
         if dictionary and token in dictionary:
             raise DictionaryError('Token exists in the dictionary provided.')
+
+        if username and sorted(username) == sorted(token):
+            raise AnagramError('Token must not be an anagram of username.')
 
         if not isinstance(token, six.text_type):
             token = self._decode_token(token)
@@ -66,6 +83,9 @@ class EntropyCalculator(object):
 
         bits += self._get_composition_additional(token)
         bits += self._get_dictionary_additional(token, dictionary)
+
+        if username and dictionary:
+            bits = max(bits, MIN_DICT_USER_BITS)
 
         return round(bits * coef, 2)
 

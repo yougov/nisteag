@@ -7,6 +7,7 @@ from unittest import TestCase
 from nose.tools import istest
 
 from nisteag.entropy import (
+    AnagramError,
     DictionaryError,
     EmptyTokenError,
     EntropyCalculator,
@@ -208,3 +209,25 @@ class EntropyCalculatorTest(TestCase):
         result = self.calculator.calculate(token, self.dictionary)
 
         self.assertEqual(result, 37)
+
+    @istest
+    def fails_to_calculate_if_token_is_anagram_of_username(self):
+        token = 'silent'
+        username = 'listen'
+
+        with self.assertRaises(AnagramError):
+            self.calculator.calculate(token, username=username)
+
+    @istest
+    def calculates_for_3_ascii_characters_with_username(self):
+        result = self.calculator.calculate(
+            string.printable[:3], username='joe')
+
+        self.assertEqual(result, 8)
+
+    @istest
+    def calculates_for_3_ascii_characters_with_dict_and_username(self):
+        result = self.calculator.calculate(
+            string.printable[:3], self.dictionary, 'joe')
+
+        self.assertEqual(result, 10)
