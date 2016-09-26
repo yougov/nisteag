@@ -24,7 +24,7 @@ class BaseThrottler(object):
     The only method that needs to be implemented is
     :meth:`BaseThrottler.check`.
 
-    :raise ThrottlerTokenError: In case the throttler rejects the token - for
+    :throws ThrottlerTokenError: In case the throttler rejects the token - for
         instance if it's temporarily blocked.
 
     """
