@@ -7,11 +7,15 @@ document.
 
 from abc import ABCMeta, abstractmethod
 
-from nisteag.entropy import EntropyCalculator, EntropyError
+from nisteag.entropy import EntropyCalculator, TokenError
 
 
-class WeakTokenError(EntropyError):
+class WeakTokenError(TokenError):
     """Raised when the token is too weak."""
+
+
+class ThrottlerTokenError(TokenError):
+    """Raised when the token is rejected by the throttler."""
 
 
 class BaseThrottler(object):
@@ -19,6 +23,9 @@ class BaseThrottler(object):
 
     The only method that needs to be implemented is
     :meth:`BaseThrottler.check`.
+
+    :raise ThrottlerTokenError: In case the throttler rejects the token - for
+        instance if it's temporarily blocked.
 
     """
 

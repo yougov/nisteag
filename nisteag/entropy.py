@@ -29,19 +29,19 @@ MAX_DICTIONARY_BITS = 6
 MIN_DICT_USER_BITS = 10
 
 
-class EntropyError(Exception):
+class TokenError(Exception):
     """Base exception class for entropy errors."""
 
 
-class EmptyTokenError(EntropyError):
+class EmptyTokenError(TokenError):
     """Raised when the token is empty."""
 
 
-class DictionaryError(EntropyError):
+class DictionaryError(TokenError):
     """Raised when there's an error regarding the terms dictionary provided."""
 
 
-class AnagramError(EntropyError):
+class AnagramError(TokenError):
     """Raised when the token is an anagram of a username."""
 
 
