@@ -4,7 +4,9 @@ See section 8.2.3. Throttling Mechanisms, page 75, of the NIST document.
 
 """
 
+import time
 from abc import ABCMeta, abstractmethod
+from collections import defaultdict, deque
 
 from nisteag.errors import SecurityError
 
@@ -41,3 +43,37 @@ class NullThrottler(BaseThrottler):
 
     def check(self, username, token):
         pass
+
+
+class MemoryThrottler(BaseThrottler):
+    """A very simple and naive memory-based throttler.
+
+    This throttler was developed only as a concept; since it runs in memory,
+    and application processes normally don't last too long, it will probably
+    not make much sense to use it in production.
+
+    If the checks reach 100 times in a period of until 30 days, it starts
+    failing on further attempts, like recommended by the NIST document.
+
+    Not thread-safe at all!
+
+    """
+
+    MAX_ATTEMPTS = 100
+    ATTEMPT_WINDOW = 30 * 24 * 60 * 60
+
+    def __init__(self):
+        self.__users_data = defaultdict(self.__user_initial_data)
+
+    def __user_initial_data(self):
+        return deque([], self.MAX_ATTEMPTS)
+
+    def check(self, username, token):
+        user_data = self.__users_data[username]
+        now = time.time()
+
+        if len(user_data) == self.MAX_ATTEMPTS and (
+                (now - user_data[0]) <= self.ATTEMPT_WINDOW):
+            raise ThrottlerError('User reached maximum attempts.')
+
+        user_data.append(now)
