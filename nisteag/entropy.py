@@ -11,6 +11,11 @@ import string
 import chardet
 import six
 
+from nisteag.errors import (
+    DictionaryError,
+    AnagramError,
+)
+
 
 KEYBOARD_SIZE = 94
 UNICODE_SIZE = 1114111
@@ -27,22 +32,6 @@ SETS = sorted((LOWER_SET, UPPER_SET, DIGIT_SET, SPECIAL_SET))
 MAX_COMPOSITION_BITS = 6
 MAX_DICTIONARY_BITS = 6
 MIN_DICT_USER_BITS = 10
-
-
-class TokenError(Exception):
-    """Base exception class for entropy errors."""
-
-
-class EmptyTokenError(TokenError):
-    """Raised when the token is empty."""
-
-
-class DictionaryError(TokenError):
-    """Raised when there's an error regarding the terms dictionary provided."""
-
-
-class AnagramError(TokenError):
-    """Raised when the token is an anagram of a username."""
 
 
 class EntropyCalculator(object):

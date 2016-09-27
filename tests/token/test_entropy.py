@@ -9,7 +9,6 @@ from nose.tools import istest
 from nisteag.entropy import (
     AnagramError,
     DictionaryError,
-    EmptyTokenError,
     EntropyCalculator,
 )
 

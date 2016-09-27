@@ -5,57 +5,23 @@ document.
 
 """
 
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 
-from nisteag.entropy import EntropyCalculator, TokenError
-
-
-class WeakTokenError(TokenError):
-    """Raised when the token is too weak."""
-
-
-class ThrottlerTokenError(TokenError):
-    """Raised when the token is rejected by the throttler."""
-
-
-class BaseThrottler(object):
-    """Base class for implementation of throttling mechanisms.
-
-    The only method that needs to be implemented is
-    :meth:`BaseThrottler.check`.
-
-    :throws ThrottlerTokenError: In case the throttler rejects the token - for
-        instance if it's temporarily blocked.
-
-    """
-
-    __metaclass__ = ABCMeta
-
-    @abstractmethod
-    def check(self, username, token):
-        raise NotImplementedError()  # pragma: no cover
-
-
-class NullThrottler(BaseThrottler):
-    """A null throttler, i.e., it does not actually do anything.
-
-    The check from this class always passes, it's used for experimentation or
-    testing purposes only. Use it at your own risk.
-
-    """
-
-    def check(self, username, token):
-        pass
+from nisteag.entropy import EntropyCalculator
+from nisteag.errors import WeakTokenError
 
 
 class BaseMemorizedChecker(object):
+    __metaclass__ = ABCMeta
+
     MINIMUM_ENTROPY = 0
 
-    def __init__(self, throttler):
+    def __init__(self, throttler=None):
         """Initializes the instance.
 
-        :param BaseThrottler throttler: The throttler that will be used for
-            making sure that failed attempts are limited.
+        :param nisteag.threats.throttling.BaseThrottler throttler:
+            An optional throttler that can be used at token requirements check
+            time. Default is `None`.
 
         """
         self.calculator = EntropyCalculator()
@@ -74,7 +40,8 @@ class BaseMemorizedChecker(object):
             checking. Default: `None`.
 
         """
-        self.throttler.check(username, token)
+        if self.throttler is not None:
+            self.throttler.check(username, token)
 
         bits = self.calculator.calculate(token, dictionary, username)
 

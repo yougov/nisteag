@@ -6,15 +6,18 @@ from unittest import TestCase
 from nose.tools import istest
 
 from nisteag.entropy import AnagramError, DictionaryError
+from nisteag.threats.throttling import (
+    BaseThrottler,
+    NullThrottler,
+)
 from nisteag.token.requirements.memorized import (
     Level1Checker,
     Level2Checker,
-    NullThrottler,
     WeakTokenError,
 )
 
 
-class FailingThrottler(object):
+class FailingThrottler(BaseThrottler):
     def check(self, username, token):
         raise RuntimeError('too many attempts')
 
@@ -56,6 +59,11 @@ class Level1CheckerTest(TestCase):
 
         with self.assertRaises(RuntimeError):
             checker.check('kjhdgfguier89324!!!')
+
+    @istest
+    def can_be_check_without_a_throttler(self):
+        checker = Level1Checker()
+        checker.check('This Is a BIG and relev4nt passwurd!!!')
 
 
 class Level2CheckerTest(TestCase):
